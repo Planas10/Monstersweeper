@@ -9,11 +9,6 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject mainmenucanvas;
     [SerializeField] GameObject settingscanvas;
 
-    [SerializeField] GameObject minaPlay;
-    [SerializeField] GameObject minaSettings;
-    [SerializeField] GameObject minaExit;
-    [SerializeField] GameObject minaReturnMM;
-
     public AudioSource buttonsoundSource;
 
     public void Start()
