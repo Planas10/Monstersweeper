@@ -8,6 +8,7 @@ public class MainMenuManager : MonoBehaviour
     //canvas
     [SerializeField] GameObject mainmenucanvas;
     [SerializeField] GameObject settingscanvas;
+    [SerializeField] GameObject creditscanvas;
 
     public AudioSource buttonsoundSource;
 
@@ -27,6 +28,10 @@ public class MainMenuManager : MonoBehaviour
         buttonsoundSource.Play();
         mainmenucanvas.SetActive(true);
         settingscanvas.SetActive(false);
+    }
+
+    public void Credits() {
+        
     }
 
     public void StartGame() {

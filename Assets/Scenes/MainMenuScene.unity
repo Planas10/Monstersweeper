@@ -1180,6 +1180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainmenucanvas: {fileID: 1102819544}
   settingscanvas: {fileID: 24676226}
+  creditscanvas: {fileID: 0}
   buttonsoundSource: {fileID: 775328498}
 --- !u!4 &775328497
 Transform:
