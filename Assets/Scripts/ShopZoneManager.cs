@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class ShopZoneManager : MonoBehaviour
 {
+    [Tooltip("Shop zone ambience music")]
+    [SerializeField] private AudioSource _Smus;
+
+
     private void Awake()
     {
         LockCursor();
+        _Smus.Play();
     }
 
     //Hide cursor
