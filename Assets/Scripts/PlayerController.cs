@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,43 +6,45 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Gameplay _playerinputmap = null;
-
     [SerializeField] private float _speed = 5f;
-    private Vector3 _direction = Vector3.zero;
 
+    [SerializeField] private Camera _Cam;
+    private float _Hmouse;
+    private float _Vmouse;
 
-    private void OnEnable()
-    {
-        _playerinputmap.Enable();
-    }
-    private void OnDisable()
-    {
-        _playerinputmap .Disable();
-    }
+    private float _mousehorizontal = 2f;
+    private float _mousevertical = 2f;
+
+    public CharacterController _ch;
 
     private void Awake()
     {
-
-
-        _playerinputmap = new Gameplay();
-
-        _playerinputmap.Player.Move.performed += ReadInput;
-        _playerinputmap.Player.Move.canceled += ReadInput;
+        _ch = GetComponent<CharacterController>();
     }
 
     private void Update()
     {
+        MouseMove();
         MovePlayer();
-    }
-
-    private void ReadInput(InputAction.CallbackContext context){
-        var input = context.ReadValue<Vector2>();
-        _direction.x = input.x;
-        _direction.z = input.y;
+        Debug.Log(_Vmouse);
     }
 
     private void MovePlayer() {
-        transform.position += _direction * _speed * Time.deltaTime;
+
+        Vector3 MoveDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        MoveDirection = transform.TransformDirection(MoveDirection);
+        _ch.Move(MoveDirection * _speed * Time.deltaTime);
+    }
+
+    private void MouseMove()
+    {
+        _Hmouse = _mousehorizontal * Input.GetAxis("Mouse X");
+        _Vmouse = _mousevertical * -Input.GetAxis("Mouse Y");
+
+        Mathf.Clamp(_Cam.transform.rotation.x, -45, 45);
+
+        transform.Rotate(0, _Hmouse, 0);
+        _Cam.transform.Rotate(_Vmouse, 0, 0,Space.Self);
+
     }
 }
