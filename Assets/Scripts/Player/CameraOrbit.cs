@@ -2,44 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.GraphicsBuffer;
 
 public class CameraOrbit : MonoBehaviour
 {
-    private float _rotSpeed = 500f;
-    private float _Hmouse;
-    private float _Vmouse;
+    [SerializeField] private PauseMenuManager _pausemanager;
 
-    private float _mousehorizontal = 2f;
-    private float _mousevertical = 2f;
+    [SerializeField] private GameObject target;
+    private float targetDistance = 5f;
+    private float rotationX;
+    private float rotationY;
+    private float cameraLerp = 12f;
+
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "FightScene")
+        if (_pausemanager.GamePaused == false)
             CamOrbit();
-        else
-            CameraMovement();
     }
 
     private void CamOrbit() {
-        if (Input.GetAxis("Mouse Y") != 0 || Input.GetAxis("Mouse X") != 0)
-        {
-            float _verticalinput = Input.GetAxis("Mouse Y") * _rotSpeed * Time.deltaTime;
-            float _horizontalinput = Input.GetAxis("Mouse X") * _rotSpeed * Time.deltaTime;
-
-            transform.Rotate(Vector3.right, _verticalinput);
-            transform.Rotate(Vector3.up, _horizontalinput, Space.World);
-        }
-    }
-
-    private void CameraMovement()
-    {
-        _Hmouse = _mousehorizontal * Input.GetAxis("Mouse X");
-        _Vmouse = _mousevertical * -Input.GetAxis("Mouse Y");
-
-        Mathf.Clamp(transform.rotation.x, -45, 45);
-
-        transform.Rotate(0, _Hmouse, 0);
-        transform.Rotate(_Vmouse, 0, 0, Space.Self);
-
+        rotationX -= Input.GetAxis("Mouse Y");
+        rotationY += Input.GetAxis("Mouse X");
+        rotationX = Mathf.Clamp(rotationX, 0f, 50f);
+        transform.eulerAngles = new Vector3(rotationX, rotationY, 0);
+        transform.position = Vector3.Lerp(transform.position, target.transform.position - transform.forward * targetDistance, cameraLerp * Time.deltaTime);
     }
 }
