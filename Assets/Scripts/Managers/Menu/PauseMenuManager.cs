@@ -21,6 +21,7 @@ public class PauseMenuManager : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.P) && (pausemenucanvas.activeSelf == false && pausesettingscanvas.activeSelf == false)){
             pausemenucanvas.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
