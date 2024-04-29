@@ -14,12 +14,16 @@ public class PlayerController : MonoBehaviour
 
     //COMBAT
     //Dash
+    private Vector3 _DashLimit;
+    private float _dashDistance = 10f;
     private float _dashCC = 5f;
     private float _CdashCC;
-    private float _dashDistance;
+    private float _dashSpeed = 10f;
 
     private void Awake()
     {
+        _pausemanager = FindObjectOfType<PauseMenuManager>();
+
         _ch = GetComponent<CharacterController>();
         _CdashCC = 0f;
     }
@@ -34,7 +38,6 @@ public class PlayerController : MonoBehaviour
 
         Vector3 MoveDirection = Quaternion.Euler(0f, _Cam.transform.eulerAngles.y, 0f) * new Vector3(Input.GetAxis("Horizontal"), -3f, Input.GetAxis("Vertical"));
         MoveDirection = transform.TransformDirection(MoveDirection);
-        _ch.Move(MoveDirection * _speed * Time.deltaTime);
 
         //Combat Controls
         //Dash
@@ -42,10 +45,17 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Dash");
             //arreglar el moviment
-            _ch.Move((MoveDirection + transform.forward) * _speed * Time.deltaTime);
+            //MoveDirection = transform.forward * _dashDistance;
             _CdashCC = _dashCC;
             StartCoroutine(DashCooldown());
         }
+
+        if (Vector3.Distance(transform.position, _DashLimit) > 0.5f)
+        {
+            _ch.Move(MoveDirection * _dashSpeed * Time.deltaTime);
+        }
+        
+        _ch.Move(MoveDirection * _speed * Time.deltaTime);
     }
 
     private IEnumerator DashCooldown() {

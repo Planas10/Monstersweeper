@@ -3772,6 +3772,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7930628536706190038, guid: 21f6d68d03df1fc45a90f7a245127454, type: 3}
+      propertyPath: _pausemanager
+      value: 
+      objectReference: {fileID: 1282438641}
     - target: {fileID: 9066394474858280848, guid: 21f6d68d03df1fc45a90f7a245127454, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.69
