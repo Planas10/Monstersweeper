@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c387ba4ee4cc7204d9566d4c7449f017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pausemanager: {fileID: 0}
   target: {fileID: 6577355370521194762}
 --- !u!1 &4038301291794239342
 GameObject:
@@ -260,9 +261,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1f36fbbdc4fce43978e9e5c238fa71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pausemanager: {fileID: 0}
   _speed: 5
   _Cam: {fileID: 7433065634861575621}
-  _ch: {fileID: 0}
+  _ch: {fileID: 7508982604638306816}
 --- !u!143 &7508982604638306816
 CharacterController:
   m_ObjectHideFlags: 0
