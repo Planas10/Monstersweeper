@@ -8,20 +8,21 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PauseMenuManager _pausemanager;
-    [SerializeField] private float _speed = 5f;
+    [SerializeField] private float _speed;
     [SerializeField] private Camera _Cam;
     public CharacterController _ch;
 
+    private float _normalspeed = 5f;
+
     //COMBAT
     //Dash
-    private Vector3 _DashLimit;
-    private float _dashDistance = 10f;
     private float _dashCC = 5f;
     private float _CdashCC;
-    private float _dashSpeed = 10f;
+    private float _dashSpeed = 30f;
 
     private void Awake()
     {
+        _speed = _normalspeed;
         _pausemanager = FindObjectOfType<PauseMenuManager>();
 
         _ch = GetComponent<CharacterController>();
@@ -44,23 +45,22 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && _CdashCC == 0f)
         {
             Debug.Log("Dash");
-            //arreglar el moviment
-            //MoveDirection = transform.forward * _dashDistance;
+            _speed = _dashSpeed;
             _CdashCC = _dashCC;
             StartCoroutine(DashCooldown());
         }
-
-        if (Vector3.Distance(transform.position, _DashLimit) > 0.5f)
-        {
-            _ch.Move(MoveDirection * _dashSpeed * Time.deltaTime);
-        }
         
+        //final movement
         _ch.Move(MoveDirection * _speed * Time.deltaTime);
+        
     }
 
     private IEnumerator DashCooldown() {
+        yield return new WaitForSeconds(0.2f);
+        _speed = _normalspeed;
         Debug.Log("DashCC");
         yield return new WaitForSeconds(_dashCC);
+        Debug.LogError("DashReady");
         _CdashCC = 0f;
     }
 }

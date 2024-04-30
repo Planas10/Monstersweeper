@@ -22,16 +22,19 @@ public class PauseMenuManager : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.P) && (pausemenucanvas.activeSelf == false && pausesettingscanvas.activeSelf == false)){
+        if (Input.GetKeyDown(KeyCode.P) && (pausemenucanvas.activeSelf == false && pausesettingscanvas.activeSelf == false))
+        {
             pausemenucanvas.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             GamePaused = true;
         }
         else if (Input.GetKeyDown(KeyCode.P) && (pausemenucanvas.activeSelf == true || pausesettingscanvas.activeSelf == true))
+        {
             pausemenucanvas.SetActive(false);
             pausesettingscanvas.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             GamePaused = false;
+        }
     }
     public void Resume()
     {
