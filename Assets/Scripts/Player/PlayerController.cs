@@ -63,4 +63,8 @@ public class PlayerController : MonoBehaviour
         Debug.LogError("DashReady");
         _CdashCC = 0f;
     }
+
+    private void Attack() {
+        
+    }
 }
