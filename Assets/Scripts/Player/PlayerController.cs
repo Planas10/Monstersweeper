@@ -14,7 +14,18 @@ public class PlayerController : MonoBehaviour
 
     private float _normalspeed = 5f;
 
+    public Animator _Panimator;
+
     //COMBAT
+    //Player stats
+    public int _Phealth;
+    public int _basePatkdmg;
+    public int _basePdef;
+    private int _Patkdmg;
+    private int _Pdef;
+    public int _PcurrSword;
+    public int _PcurrArmor;
+
     //Dash
     private float _dashCC = 5f;
     private float _CdashCC;

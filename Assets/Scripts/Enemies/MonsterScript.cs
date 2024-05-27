@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class MonsterScript : MonoBehaviour
 {
-    public Transform target;                // El objetivo hacia el cual el objeto se moverá
-    public float speed = 5f;                // Velocidad de movimiento normal
-    public float rotationSpeed = 5f;        // Velocidad de rotación normal
-    public float chargeSpeed = 20f;         // Velocidad de embestida
-    public float chargeDuration = 3f;       // Duración de la embestida
-    public float detectionRadius = 10f;     // Radio del SphereCollider para detección
+    public Transform target;           
+    public float speed = 5f;           
+    public float rotationSpeed = 5f;   
+    public float chargeSpeed = 20f;    
+    public float chargeDuration = 3f;  
+    public float detectionRadius = 10f;
+    public Animator _Manimator;
 
-    private Rigidbody rb;                   // Referencia al componente Rigidbody
-    private Vector3 lastKnownPosition;      // Última posición conocida del objetivo
-    private bool isCharging = false;        // Indica si el objeto está embistiendo
-    private float chargeStartTime;          // Tiempo en el que se inició la embestida
+    private Rigidbody rb;              
+    private Vector3 lastKnownPosition; 
+    private bool isCharging = false;   
+    private float chargeStartTime;     
+
+
+
 
     void Start()
     {
