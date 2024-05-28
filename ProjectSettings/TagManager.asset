@@ -4,7 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - WallEntrance
+  - StartWall
+  - ShopWall
+  - FrontEntrance
+  - BackEntrance
+  - LeftEntrance
+  - RightEntrance
+  - PlayerAttackRange
+  - EnemyMeleeRange
+  - EnemyChargeRange
   layers:
   - Default
   - TransparentFX

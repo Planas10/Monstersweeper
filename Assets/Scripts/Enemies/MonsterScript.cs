@@ -15,9 +15,15 @@ public class MonsterScript : MonoBehaviour
     private Rigidbody rb;              
     private Vector3 lastKnownPosition; 
     private bool isCharging = false;   
-    private float chargeStartTime;     
+    private float chargeStartTime;
 
+    public bool _PlayerInMeleeRange;
 
+    //Stats
+    private int _MMaxhealth = 200;
+    public int _McurrHealth;
+    public int _MmeleeDmg = 25;
+    public int _MChargeDmg = 40;
 
 
     void Start()
@@ -104,5 +110,17 @@ public class MonsterScript : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         rb.MoveRotation(targetRotation); // Rotación instantánea durante la embestida
     }
+
+    private void MeleeAttack() {
+        
+    }
+
+    //private IEnumerator AttackCooldown()
+    //{
+    //    Debug.Log("AttkCC");
+    //    yield return new WaitForSeconds(_attkCC);
+    //    Debug.LogError("AttkReady");
+    //    _CattkCC = 0f;
+    //}
 }
 

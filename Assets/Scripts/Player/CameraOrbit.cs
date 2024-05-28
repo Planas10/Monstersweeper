@@ -24,7 +24,7 @@ public class CameraOrbit : MonoBehaviour
     private void CamOrbit() {
         rotationX -= Input.GetAxis("Mouse Y");
         rotationY += Input.GetAxis("Mouse X");
-        rotationX = Mathf.Clamp(rotationX, 0f, 50f);
+        rotationX = Mathf.Clamp(rotationX, -20f, 50f);
         transform.eulerAngles = new Vector3(rotationX, rotationY, 0);
         transform.position = Vector3.Lerp(transform.position, target.transform.position - transform.forward * targetDistance, cameraLerp * Time.deltaTime);
     }

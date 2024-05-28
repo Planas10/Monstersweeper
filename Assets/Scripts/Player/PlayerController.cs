@@ -12,16 +12,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera _Cam;
     public CharacterController _ch;
 
-    private float _normalspeed = 5f;
+    private float _normalspeed = 10f;
 
     public Animator _Panimator;
 
     //COMBAT
     //Player stats
     public int _Phealth;
-    public int _basePatkdmg;
     public int _basePdef;
-    private int _Patkdmg;
     private int _Pdef;
     public int _PcurrSword;
     public int _PcurrArmor;
@@ -31,6 +29,12 @@ public class PlayerController : MonoBehaviour
     private float _CdashCC;
     private float _dashSpeed = 30f;
 
+    //Attack
+    public int _basePatkdmg = 10;
+    private int _Patkdmg;
+    private float _attkCC = 2.5f;
+    private float _CattkCC;
+
     private void Awake()
     {
         _speed = _normalspeed;
@@ -38,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
         _ch = GetComponent<CharacterController>();
         _CdashCC = 0f;
+        _CattkCC = 0f;
     }
 
     private void Update()
@@ -76,6 +81,17 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Attack() {
-        
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Debug.LogError("Attack");
+        }
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        Debug.Log("AttkCC");
+        yield return new WaitForSeconds(_attkCC);
+        Debug.LogError("AttkReady");
+        _CattkCC = 0f;
     }
 }
