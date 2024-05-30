@@ -22,7 +22,7 @@ public class MonsterScript : MonoBehaviour
 
     public bool _PlayerInMeleeRange;
 
-    private float _chargeCC = 7;
+    private float _chargeCC = 7f;
     private float _CchargeCC;
 
     public bool _PlayerHitMe;
@@ -130,14 +130,18 @@ public class MonsterScript : MonoBehaviour
 
     void ChargeTowards(Vector3 position)
     {
-        Vector3 direction = position - transform.position;
-        direction.Normalize();
+        if (_CchargeCC == 0f)
+        {
+            _CchargeCC = 1;
+            Vector3 direction = position - transform.position;
+            direction.Normalize();
 
-        Vector3 newPosition = Vector3.MoveTowards(rb.position, position, chargeSpeed * Time.deltaTime);
-        rb.MovePosition(newPosition);
+            Vector3 newPosition = Vector3.MoveTowards(rb.position, position, chargeSpeed * Time.deltaTime);
+            rb.MovePosition(newPosition);
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        rb.MoveRotation(targetRotation); // Rotación instantánea durante la embestida
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            rb.MoveRotation(targetRotation); // Rotación instantánea durante la embestida
+        }
     }
 
     private void MeleeAttack() {

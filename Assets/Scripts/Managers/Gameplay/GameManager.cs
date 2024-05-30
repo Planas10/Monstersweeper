@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public bool _PlayerOnEntrance;
     public int _MaxRunRooms;
     public bool _roomReset;
-    private int _NextRoomId; // 1-60: Combat Room, 61-100: treasure room, shop room -> every 5 rooms (5,10,15,20,25....)
+    private int _NextRoomId; // 1-60: Combat Room, 61-100: treasure room, heal room -> every 5 rooms (5,10,15,20,25....)
     public bool _roomCleared;
 
     public GameObject _entranceText;
@@ -32,6 +33,11 @@ public class GameManager : MonoBehaviour
         _TotalEnemiesDefeated = 0;
     }
 
+    private void Start()
+    {
+        StartRun();
+    }
+
     private void Update()
     {
         if (_PlayerOnEntrance)
@@ -42,10 +48,10 @@ public class GameManager : MonoBehaviour
         {
             _entranceText.SetActive(false);
         }
-        GoToNextRoom();
     }
 
-    private void CreateNextRoom() {
+    private void CreateNextRoom()
+    {
         _NextRoomId = UnityEngine.Random.Range(1, 100);
         if (_NextRoomId >= 1 && _NextRoomId <= 60)
         {
@@ -60,6 +66,13 @@ public class GameManager : MonoBehaviour
             _Treasure.transform.position = _TreasureStartPos.transform.position;
             _Player.transform.position = _PlayerStartPos.transform.position;
         }
+    }
+
+    private void StartRun() {
+        CreateNextRoom();
+        Invoke("FadeIn", 1);
+        _roomCleared = false;
+        _PlayerOnEntrance = false;
     }
 
     private void GoToNextRoom() {

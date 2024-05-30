@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 public class PauseMenuManager : MonoBehaviour
 {
     //canvas
-    [SerializeField] GameObject pausemenucanvas;
-    [SerializeField] GameObject pausesettingscanvas;
+    public GameObject pausemenucanvas;
+    public GameObject pausesettingscanvas;
+    public GameObject _HTPcanvas;
 
     public bool GamePaused;
 
@@ -22,7 +23,7 @@ public class PauseMenuManager : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.P) && (pausemenucanvas.activeSelf == false && pausesettingscanvas.activeSelf == false))
+        if (Input.GetKeyDown(KeyCode.P) && (pausemenucanvas.activeSelf == false && pausesettingscanvas.activeSelf == false && _HTPcanvas.activeSelf == false))
         {
             pausemenucanvas.SetActive(true);
             Cursor.lockState = CursorLockMode.None;

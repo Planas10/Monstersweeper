@@ -30,10 +30,13 @@ public class MainMenuManager : MonoBehaviour
         buttonsoundSource.Play();
         mainmenucanvas.SetActive(true);
         settingscanvas.SetActive(false);
+        creditscanvas.SetActive(false);
     }
 
     public void Credits() {
-        
+        buttonsoundSource.Play();
+        mainmenucanvas.SetActive(false);
+        creditscanvas.SetActive(true);
     }
 
     public void StartGame() {

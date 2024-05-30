@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
@@ -9,7 +10,7 @@ public class CameraOrbit : MonoBehaviour
     [SerializeField] private PauseMenuManager _pausemanager;
 
     [SerializeField] private GameObject target;
-    private float targetDistance = 5f;
+    private float targetDistance = 7f;
     private float rotationX;
     private float rotationY;
     private float cameraLerp = 12f;
@@ -19,6 +20,12 @@ public class CameraOrbit : MonoBehaviour
     {
         if (_pausemanager.GamePaused == false)
             CamOrbit();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 finalPosition = Vector3.Lerp(transform.position, target.transform.position - transform.forward * targetDistance, cameraLerp * Time.deltaTime);
+        Gizmos.DrawLine(target.transform.position, finalPosition);
     }
 
     private void CamOrbit() {

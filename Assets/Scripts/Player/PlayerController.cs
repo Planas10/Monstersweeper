@@ -8,38 +8,49 @@ using UnityEngine.InputSystem.HID;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private PauseMenuManager _pausemanager;
-    [SerializeField] private float _speed;
-    [SerializeField] private Camera _Cam;
-    public CharacterController _ch;
-    public MonsterScript _Mscript;
+    [Header("Scripts")]
+    public PauseMenuManager _pausemanager;
     public GameManager _gamemanager;
+    public MonsterScript _Mscript;
+    public ShopZoneManager _shopzonemanager;
 
-    public GameObject _CamPH;
-
-    private float _normalspeed = 10f;
-
+    [Header("Components")]
     public Animator _Panimator;
+    public AudioSource _DashSound;
+    public AudioSource _SlashSound;
+    public CharacterController _ch;
 
-    //COMBAT
-    //Player stats
+    [Header("Player variables")]
+    //public variables
+    public bool _playerNearStart;
+    public bool _playerNearTuto;
+    public int _playerGold;
     public int _Phealth;
+    public bool _dashing;
+    public bool _attacking;
+    public int _Patkdmg;
+    public float _attkCC;
+    public float _normalspeed;
+
+    [Header("Camera variables")]
+    public GameObject _CamPH;
+    public Camera _Cam;
+
+    //private variables
+    private float _dashCC = 5f;
+    private float _CdashCC;
+    private float _dashSpeed = 30f;
+    private float _speed;
+    private bool _EnemyInRange;
+    private float _CattkCC;
+
     //public int _basePdef;
     //private int _Pdef;
     //public int _PcurrSword;
     //public int _PcurrArmor;
-
-    //Dash
-    private float _dashCC = 5f;
-    private float _CdashCC;
-    private float _dashSpeed = 30f;
-
-    //Attack
-    private bool _EnemyInRange;
     //public int _basePatkdmg = 10;
-    public int _Patkdmg;
-    private float _attkCC = 2.5f;
-    private float _CattkCC;
+
+
 
     private void Awake()
     {
@@ -64,10 +75,6 @@ public class PlayerController : MonoBehaviour
             MovePlayer();
             Attack();
         }
-        
-        //if (Physics.Raycast(transform.position, new Vector3(_CamPH.transform.position.x, _CamPH.transform.position.y, _CamPH.transform.position.z + 3), out RaycastHit hit, 6)) {
-        //    Debug.Log("Patatudo");
-        //}
     }
 
     private void MovePlayer() {
@@ -79,7 +86,7 @@ public class PlayerController : MonoBehaviour
         //Dash
         if (Input.GetKeyDown(KeyCode.LeftShift) && _CdashCC == 0f)
         {
-            Debug.Log("Dash");
+            _DashSound.Play();
             _speed = _dashSpeed;
             _CdashCC =+ 1;
             StartCoroutine(DashCooldown());
@@ -93,18 +100,16 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashCooldown() {
         yield return new WaitForSeconds(0.2f);
         _speed = _normalspeed;
-        Debug.Log("DashCC");
         yield return new WaitForSeconds(_dashCC);
-        Debug.LogError("DashReady");
         _CdashCC = 0f;
     }
 
     private void Attack() {
         if (Input.GetKeyDown(KeyCode.Mouse0) && _CattkCC == 0f)
         {
-            Debug.LogError("Attack");
+            _SlashSound.Play();
             _CattkCC = +1;
-            if (_EnemyInRange)
+            if (_EnemyInRange && _Mscript != null)
             {
                 _Mscript._PlayerHitMe = true;
             }
@@ -122,6 +127,15 @@ public class PlayerController : MonoBehaviour
         {
             _gamemanager._PlayerOnEntrance = true;
         }
+        if (other.gameObject.CompareTag("StartWall"))
+        {
+            _playerNearStart = true;
+            _shopzonemanager._canStartRun = true;
+        }
+        if (other.gameObject.CompareTag("TutoWall"))
+        {
+            _playerNearTuto = true;
+        }
     }
     private void OnTriggerExit(Collider other)
     {
@@ -133,12 +147,19 @@ public class PlayerController : MonoBehaviour
         {
             _gamemanager._PlayerOnEntrance = false;
         }
+        if (other.gameObject.CompareTag("StartWall"))
+        {
+            _playerNearStart = false;
+            _shopzonemanager._canStartRun = false;
+        }
+        if (other.gameObject.CompareTag("TutoWall"))
+        {
+            _playerNearTuto = false;
+        }
     }
     private IEnumerator AttackCooldown()
     {
-        Debug.Log("AttkCC");
         yield return new WaitForSeconds(_attkCC);
-        Debug.LogError("AttkReady");
         _CattkCC = 0f;
     }
 }

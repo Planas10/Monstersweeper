@@ -16,6 +16,7 @@ TagManager:
   - Enemy
   - FrontEntrance
   - Entrance
+  - TutoWall
   layers:
   - Default
   - TransparentFX
