@@ -266,7 +266,12 @@ MonoBehaviour:
   _speed: 5
   _Cam: {fileID: 7433065634861575621}
   _ch: {fileID: 7508982604638306816}
-  _Phealth: 0
+  _Mscript: {fileID: 0}
+  _gamemanager: {fileID: 0}
+  _CamPH: {fileID: 4038301291794239342}
+  _Panimator: {fileID: 7474699132681706087}
+  _Phealth: 100
+  _Patkdmg: 0
 --- !u!143 &7508982604638306816
 CharacterController:
   m_ObjectHideFlags: 0

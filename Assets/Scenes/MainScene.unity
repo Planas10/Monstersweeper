@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3445,7 +3445,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894069796}
-  m_Text: Shop
+  m_Text: Tutorial
   m_OffsetZ: 0
   m_CharacterSize: 0.5
   m_LineSpacing: 1
@@ -3510,7 +3510,7 @@ Transform:
   m_GameObject: {fileID: 894069796}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.6, y: 7.26, z: 29.735}
+  m_LocalPosition: {x: -21.2, y: 7.26, z: 29.735}
   m_LocalScale: {x: 0.31148812, y: 0.31148812, z: 0.31148812}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6410,6 +6410,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1144426170303738259, guid: 7e46ea768219a6f418d5a6dbdc1c17e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 530bb4bbf64f6a8498aac9f9a1644e3e, type: 2}
     - target: {fileID: 6505299157303131459, guid: 7e46ea768219a6f418d5a6dbdc1c17e7, type: 3}
       propertyPath: m_Name
       value: CaveRockPack1_High2 (1)
@@ -7066,6 +7070,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1144426170303738259, guid: 7e46ea768219a6f418d5a6dbdc1c17e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 530bb4bbf64f6a8498aac9f9a1644e3e, type: 2}
     - target: {fileID: 6505299157303131459, guid: 7e46ea768219a6f418d5a6dbdc1c17e7, type: 3}
       propertyPath: m_Name
       value: CaveRockPack1_High2

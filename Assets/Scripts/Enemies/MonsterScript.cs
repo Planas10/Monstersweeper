@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MonsterScript : MonoBehaviour
 {
+    public PlayerController _Pcontroller;
+
     public Transform target;           
-    public float speed = 5f;           
+    public float speed = 3f;           
     public float rotationSpeed = 5f;   
     public float chargeSpeed = 20f;    
-    public float chargeDuration = 3f;  
+    public float chargeDuration = 5f;  
     public float detectionRadius = 10f;
     public Animator _Manimator;
 
@@ -19,23 +22,29 @@ public class MonsterScript : MonoBehaviour
 
     public bool _PlayerInMeleeRange;
 
+    private float _chargeCC = 7;
+    private float _CchargeCC;
+
+    public bool _PlayerHitMe;
+
     //Stats
-    private int _MMaxhealth = 200;
+    private int _MMaxhealth;
     public int _McurrHealth;
     public int _MmeleeDmg = 25;
     public int _MChargeDmg = 40;
-
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
+        _Pcontroller = FindObjectOfType<PlayerController>().gameObject.GetComponent<PlayerController>();
 
         // Añadir y configurar SphereCollider
         SphereCollider sphereCollider = gameObject.AddComponent<SphereCollider>();
         sphereCollider.isTrigger = true;
         sphereCollider.radius = detectionRadius;
     }
+    
 
     void OnTriggerEnter(Collider other)
     {
@@ -49,7 +58,7 @@ public class MonsterScript : MonoBehaviour
     {
         if (!isCharging && other.transform == target)
         {
-            lastKnownPosition = target.position;
+            lastKnownPosition = new Vector3(target.position.x, target.position.y + 2, target.position.z);
             Invoke("StartCharge", 3f); // Iniciar embestida después de 3 segundos
         }
     }
@@ -65,6 +74,26 @@ public class MonsterScript : MonoBehaviour
 
     void Update()
     {
+        target = FindObjectOfType<PlayerController>().gameObject.transform;
+        HealthManager();
+        ChargeAttackAndMovement();
+        MeleeAttack();
+        
+    }
+
+    private void HealthManager() {
+        if (_PlayerHitMe)
+        {
+            _McurrHealth =- _Pcontroller._Patkdmg;
+            _PlayerHitMe = false;
+        }
+        if (_McurrHealth <= 0)
+        {
+            Destroy(this);
+        }
+    }
+
+    private void ChargeAttackAndMovement() {
         if (isCharging)
         {
             float chargeElapsed = Time.time - chargeStartTime;
@@ -81,7 +110,7 @@ public class MonsterScript : MonoBehaviour
         {
             if (target != null)
             {
-                MoveTowards(target.position);
+                MoveTowards(new Vector3(target.position.x, target.position.y + 2, target.position.z));
             }
         }
     }
@@ -115,12 +144,12 @@ public class MonsterScript : MonoBehaviour
         
     }
 
-    //private IEnumerator AttackCooldown()
-    //{
-    //    Debug.Log("AttkCC");
-    //    yield return new WaitForSeconds(_attkCC);
-    //    Debug.LogError("AttkReady");
-    //    _CattkCC = 0f;
-    //}
+    private IEnumerator ChargeCooldown()
+    {
+        Debug.Log("AttkCC");
+        yield return new WaitForSeconds(_chargeCC);
+        Debug.LogError("AttkReady");
+        _CchargeCC = 0f;
+    }
 }
 

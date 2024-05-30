@@ -26,6 +26,13 @@ public class CameraOrbit : MonoBehaviour
         rotationY += Input.GetAxis("Mouse X");
         rotationX = Mathf.Clamp(rotationX, -20f, 50f);
         transform.eulerAngles = new Vector3(rotationX, rotationY, 0);
-        transform.position = Vector3.Lerp(transform.position, target.transform.position - transform.forward * targetDistance, cameraLerp * Time.deltaTime);
+        Vector3 finalPosition = Vector3.Lerp(transform.position, target.transform.position - transform.forward * targetDistance, cameraLerp * Time.deltaTime);
+        RaycastHit hit;
+        if (Physics.Linecast(target.transform.position, finalPosition, out hit))
+        {
+            finalPosition = hit.point;
+        }
+        transform.position = finalPosition;
+
     }
 }

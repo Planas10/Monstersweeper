@@ -6,13 +6,16 @@ TagManager:
   tags:
   - StartWall
   - ShopWall
-  - FrontEntrance
   - BackEntrance
   - LeftEntrance
   - RightEntrance
   - PlayerAttackRange
   - EnemyMeleeRange
   - EnemyChargeRange
+  - PlayerGUI
+  - Enemy
+  - FrontEntrance
+  - Entrance
   layers:
   - Default
   - TransparentFX
@@ -20,7 +23,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Entrances
   - 
   - 
   - 
