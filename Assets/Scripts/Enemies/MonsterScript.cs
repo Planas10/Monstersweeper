@@ -95,7 +95,6 @@ public class MonsterScript : MonoBehaviour
         if (_PlayerHitMe)
         {
             _McurrHealth = _McurrHealth - _Pcontroller._Patkdmg;
-            Debug.Log(_McurrHealth);
             _PlayerHitMe = false;
         }
         if (_McurrHealth <= 0)
@@ -180,9 +179,7 @@ public class MonsterScript : MonoBehaviour
 
     private IEnumerator ChargeCooldown()
     {
-        Debug.Log("AttkCC");
         yield return new WaitForSeconds(_chargeCC);
-        Debug.LogError("AttkReady");
         _CchargeCC = 0f;
     }
 }

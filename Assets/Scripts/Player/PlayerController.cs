@@ -82,7 +82,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_PCurrHealth);
         _MissHealth = _PMaxHealth - _PCurrHealth;
         if (_pausemanager.GamePaused == false && _CanMove)
         {
@@ -199,7 +198,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Entrance")) { _gamemanager._PlayerOnEntrance = true; }
         if (other.gameObject.CompareTag("StartWall")) { _playerNearStart = true; _shopzonemanager._canStartRun = true; }
         if (other.gameObject.CompareTag("TutoWall")) { _playerNearTuto = true; }
-        if (other.gameObject.CompareTag("Mstone")) { _canHeal = true; Debug.Log("patatudo"); }
+        if (other.gameObject.CompareTag("Mstone")) { _canHeal = true; }
         //if (other.gameObject.CompareTag("Chest")) { _canOpenChest = true; }
     }
     private void OnTriggerExit(Collider other)

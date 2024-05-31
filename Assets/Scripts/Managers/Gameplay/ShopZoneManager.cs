@@ -22,6 +22,8 @@ public class ShopZoneManager : MonoBehaviour
     public GameObject _HTPcontrols;
     public GameObject _HTProoms;
 
+    public GameObject _playerspawn;
+
     public bool _tutoActive;
 
     private void Awake()
@@ -29,6 +31,7 @@ public class ShopZoneManager : MonoBehaviour
         _HTPcanvas.SetActive(false);
         LockCursor();
         _Smus.Play();
+        _playerController.gameObject.transform.position = _playerspawn.transform.position;
     }
 
     private void Update()

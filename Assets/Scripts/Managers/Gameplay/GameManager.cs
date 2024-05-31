@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         _totalRooms++;
         _NextRoomId = UnityEngine.Random.Range(1, 100);
-        if (_NextRoomId >= 1 && _NextRoomId <= 96) //combat room
+        if (_NextRoomId >= 1 && _NextRoomId <= 33) //combat room
         {
             //combat room
             if (_totalRooms == 1)
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
             _roomCleared = false;
 
         }
-        if (_NextRoomId >= 97 && _NextRoomId <= 98) //heal room
+        if (_NextRoomId >= 34 && _NextRoomId <= 66) //heal room
         {
             //combat room
             _Enemy.transform.position = _EnemyStandByPos.transform.position;
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
             _roomCleared = true;
 
         }
-        if (_NextRoomId >= 99 && _NextRoomId <= 100) //empty room
+        if (_NextRoomId >= 67 && _NextRoomId <= 100) //empty room
         {
             //treasure room
             //_Treasure.transform.position = _TreasureStartPos.transform.position;
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void ActivateDeactivateTexts() {
-        if (_playerController._canHeal) { Debug.Log("patatudo");  _MstoneText.SetActive(true); }
+        if (_playerController._canHeal) { _MstoneText.SetActive(true); }
         else { _MstoneText.SetActive(false); }
 
         //if (_playerController._canOpenChest) { _TreasureText.SetActive(true); }
