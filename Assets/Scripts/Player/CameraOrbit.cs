@@ -11,8 +11,8 @@ public class CameraOrbit : MonoBehaviour
 
     [SerializeField] private GameObject target;
     private float targetDistance = 7f;
-    private float rotationX;
-    private float rotationY;
+    public float rotationX;
+    public float rotationY;
     private float cameraLerp = 12f;
 
 

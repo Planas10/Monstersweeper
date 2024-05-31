@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public GameManager _gamemanager;
     public MonsterScript _Mscript;
     public ShopZoneManager _shopzonemanager;
+    public CameraOrbit _cameraOrbit;
 
     [Header("Components")]
     public Animator _Panimator;
@@ -30,14 +31,16 @@ public class PlayerController : MonoBehaviour
     public bool _attacking;
     public int _Patkdmg;
     public float _attkCC;
+    public float _dashCC;
     public float _normalspeed;
+    public bool _canHeal;
+    public bool _canOpenChest;
 
     [Header("Camera variables")]
     public GameObject _CamPH;
     public Camera _Cam;
 
     //private variables
-    private float _dashCC = 5f;
     private float _CdashCC;
     private float _dashSpeed = 30f;
     private float _speed;
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour
         //Dash
         if (Input.GetKeyDown(KeyCode.LeftShift) && _CdashCC == 0f)
         {
+            _dashing = true;
             _DashSound.Play();
             _speed = _dashSpeed;
             _CdashCC =+ 1;
@@ -100,13 +104,15 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashCooldown() {
         yield return new WaitForSeconds(0.2f);
         _speed = _normalspeed;
+        _dashing = false;
         yield return new WaitForSeconds(_dashCC);
         _CdashCC = 0f;
     }
 
     private void Attack() {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && _CattkCC == 0f)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && _CattkCC == 0f && !_dashing)
         {
+            _attacking = true;
             _SlashSound.Play();
             _CattkCC = +1;
             if (_EnemyInRange && _Mscript != null)
@@ -116,50 +122,31 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(AttackCooldown());
         }
     }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            _EnemyInRange = true;
-        }
-        if (other.gameObject.CompareTag("Entrance"))
-        {
-            _gamemanager._PlayerOnEntrance = true;
-        }
-        if (other.gameObject.CompareTag("StartWall"))
-        {
-            _playerNearStart = true;
-            _shopzonemanager._canStartRun = true;
-        }
-        if (other.gameObject.CompareTag("TutoWall"))
-        {
-            _playerNearTuto = true;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            _EnemyInRange = false;
-        }
-        if (other.gameObject.CompareTag("Entrance"))
-        {
-            _gamemanager._PlayerOnEntrance = false;
-        }
-        if (other.gameObject.CompareTag("StartWall"))
-        {
-            _playerNearStart = false;
-            _shopzonemanager._canStartRun = false;
-        }
-        if (other.gameObject.CompareTag("TutoWall"))
-        {
-            _playerNearTuto = false;
-        }
-    }
+
     private IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(_attkCC);
+        _attacking = false;
         _CattkCC = 0f;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy")) { _EnemyInRange = true; }
+        if (other.gameObject.CompareTag("Entrance")) { _gamemanager._PlayerOnEntrance = true; }
+        if (other.gameObject.CompareTag("StartWall")) { _playerNearStart = true; _shopzonemanager._canStartRun = true; }
+        if (other.gameObject.CompareTag("TutoWall")) { _playerNearTuto = true; }
+        if (other.gameObject.CompareTag("Mstone")) { _canHeal = true; }
+        if (other.gameObject.CompareTag("Chest")) { _canOpenChest = true; }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy")) { _EnemyInRange = false; }
+        if (other.gameObject.CompareTag("Entrance")) { _gamemanager._PlayerOnEntrance = false; }
+        if (other.gameObject.CompareTag("StartWall")) { _playerNearStart = false; _shopzonemanager._canStartRun = false; }
+        if (other.gameObject.CompareTag("TutoWall")) { _playerNearTuto = false; }
+        if (other.gameObject.CompareTag("Mstone")) { _canHeal = false; }
+        if (other.gameObject.CompareTag("Chest")) { _canOpenChest = false; }
+    }
+
 }

@@ -17,6 +17,8 @@ TagManager:
   - FrontEntrance
   - Entrance
   - TutoWall
+  - Mstone
+  - Chest
   layers:
   - Default
   - TransparentFX
