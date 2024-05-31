@@ -22,12 +22,6 @@ public class CameraOrbit : MonoBehaviour
             CamOrbit();
     }
 
-    private void OnDrawGizmos()
-    {
-        Vector3 finalPosition = Vector3.Lerp(transform.position, target.transform.position - transform.forward * targetDistance, cameraLerp * Time.deltaTime);
-        Gizmos.DrawLine(target.transform.position, finalPosition);
-    }
-
     private void CamOrbit() {
         rotationX -= Input.GetAxis("Mouse Y");
         rotationY += Input.GetAxis("Mouse X");

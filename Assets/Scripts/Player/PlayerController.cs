@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public Animator _Panimator;
     public AudioSource _DashSound;
     public AudioSource _SlashSound;
+    public AudioSource _Steps;
+    public AudioSource _playerHit;
     public CharacterController _ch;
 
     [Header("Player variables")]
@@ -26,15 +28,22 @@ public class PlayerController : MonoBehaviour
     public bool _playerNearStart;
     public bool _playerNearTuto;
     public int _playerGold;
-    public int _Phealth;
-    public bool _dashing;
-    public bool _attacking;
     public int _Patkdmg;
     public float _attkCC;
     public float _dashCC;
     public float _normalspeed;
     public bool _canHeal;
     public bool _canOpenChest;
+    public bool _CanMove;
+    public bool _damaged;
+    public bool _running;
+    public bool _attacking;
+    public bool _dashing;
+    public bool _enemyHasHit;
+
+    public float _PMaxHealth;
+    public float _PCurrHealth;
+    public float _MissHealth;
 
     [Header("Camera variables")]
     public GameObject _CamPH;
@@ -46,6 +55,8 @@ public class PlayerController : MonoBehaviour
     private float _speed;
     private bool _EnemyInRange;
     private float _CattkCC;
+    private bool Hactive;
+    private bool Vactive;
 
     //public int _basePdef;
     //private int _Pdef;
@@ -57,6 +68,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        _PCurrHealth = _PMaxHealth;
+
+        _CanMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         _speed = _normalspeed;
         _pausemanager = FindObjectOfType<PauseMenuManager>();
@@ -66,18 +80,16 @@ public class PlayerController : MonoBehaviour
         _CattkCC = 0f;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(_CamPH.transform.position, new Vector3(_CamPH.transform.position.x, _CamPH.transform.position.y, _CamPH.transform.position.z + 3));
-    }
-
     private void Update()
     {
-        if (_pausemanager.GamePaused == false)
+        Debug.Log(_PCurrHealth);
+        _MissHealth = _PMaxHealth - _PCurrHealth;
+        if (_pausemanager.GamePaused == false && _CanMove)
         {
             MovePlayer();
             Attack();
         }
+        HealthManager();
     }
 
     private void MovePlayer() {
@@ -98,7 +110,56 @@ public class PlayerController : MonoBehaviour
         
         //final movement
         _ch.Move(MoveDirection * _speed * Time.deltaTime);
-        
+
+        if (Input.GetButtonDown("Horizontal"))
+        {
+            Hactive = true;
+            _Steps.Play();
+        }
+
+        if (Input.GetButtonDown("Vertical"))
+        {
+            Vactive = true;
+            _Steps.Play();
+        }
+
+        if (Input.GetButtonUp("Horizontal"))
+        {
+            Hactive = false;
+
+            if (Vactive == false)
+            {
+                _Steps.Pause();
+            }
+        }
+
+        if (Input.GetButtonUp("Vertical"))
+        {
+            Vactive = false;
+
+            if (Hactive == false)
+            {
+                _Steps.Pause();
+            }
+        }
+
+        if (Math.Abs(MoveDirection.x) > 0.1f || Math.Abs(MoveDirection.z) > 0.1f)
+        {
+            _running = true;
+        }
+        else
+        {
+            _running = false;
+        }
+
+    }
+
+    private void HealthManager() {
+        if (_enemyHasHit)
+        {
+            _playerHit.Play();
+            _PCurrHealth = _PCurrHealth - _Mscript._MmeleeDmg;
+        }
     }
 
     private IEnumerator DashCooldown() {
@@ -112,6 +173,7 @@ public class PlayerController : MonoBehaviour
     private void Attack() {
         if (Input.GetKeyDown(KeyCode.Mouse0) && _CattkCC == 0f && !_dashing)
         {
+            _CanMove = false;
             _attacking = true;
             _SlashSound.Play();
             _CattkCC = +1;
@@ -127,6 +189,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(_attkCC);
         _attacking = false;
+        _CanMove = true;
         _CattkCC = 0f;
     }
 
@@ -136,8 +199,8 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Entrance")) { _gamemanager._PlayerOnEntrance = true; }
         if (other.gameObject.CompareTag("StartWall")) { _playerNearStart = true; _shopzonemanager._canStartRun = true; }
         if (other.gameObject.CompareTag("TutoWall")) { _playerNearTuto = true; }
-        if (other.gameObject.CompareTag("Mstone")) { _canHeal = true; }
-        if (other.gameObject.CompareTag("Chest")) { _canOpenChest = true; }
+        if (other.gameObject.CompareTag("Mstone")) { _canHeal = true; Debug.Log("patatudo"); }
+        //if (other.gameObject.CompareTag("Chest")) { _canOpenChest = true; }
     }
     private void OnTriggerExit(Collider other)
     {
@@ -146,7 +209,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("StartWall")) { _playerNearStart = false; _shopzonemanager._canStartRun = false; }
         if (other.gameObject.CompareTag("TutoWall")) { _playerNearTuto = false; }
         if (other.gameObject.CompareTag("Mstone")) { _canHeal = false; }
-        if (other.gameObject.CompareTag("Chest")) { _canOpenChest = false; }
+        //if (other.gameObject.CompareTag("Chest")) { _canOpenChest = false; }
     }
 
 }

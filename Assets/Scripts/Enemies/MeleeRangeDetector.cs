@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeleeRangeDetector : MonoBehaviour
 {
-    [SerializeField] private MonsterScript _monsterScript;
+    public MonsterScript _monsterScript;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

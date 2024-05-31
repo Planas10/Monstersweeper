@@ -6,6 +6,7 @@ using UnityEngine;
 public class MonsterScript : MonoBehaviour
 {
     public PlayerController _Pcontroller;
+    public GameManager _gameManager;
 
     public Transform target;           
     public float speed = 3f;           
@@ -22,19 +23,28 @@ public class MonsterScript : MonoBehaviour
 
     public bool _PlayerInMeleeRange;
 
-    private float _chargeCC = 7f;
+    public float _chargeCC;
     private float _CchargeCC;
 
     public bool _PlayerHitMe;
 
+    public bool _Imdead;
+
+    public bool _Attacking;
+
+    public AudioSource _dedRoar;
+    public AudioSource _hitRoar;
+
     //Stats
-    private int _MMaxhealth;
-    public int _McurrHealth;
+    public float _MMaxhealth;
+    public float _McurrHealth;
     public int _MmeleeDmg = 25;
     public int _MChargeDmg = 40;
 
     void Start()
     {
+        _McurrHealth = _MMaxhealth;
+        _Imdead = false;
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         _Pcontroller = FindObjectOfType<PlayerController>().gameObject.GetComponent<PlayerController>();
@@ -48,15 +58,7 @@ public class MonsterScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!isCharging && other.transform == target)
-        {
-            // No hacer nada si el objetivo vuelve a entrar en el rango durante la embestida
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (!isCharging && other.transform == target)
+        if (!isCharging && other.transform == target && !_Attacking)
         {
             lastKnownPosition = new Vector3(target.position.x, target.position.y + 2, target.position.z);
             Invoke("StartCharge", 3f); // Iniciar embestida después de 3 segundos
@@ -74,22 +76,33 @@ public class MonsterScript : MonoBehaviour
 
     void Update()
     {
-        target = FindObjectOfType<PlayerController>().gameObject.transform;
-        HealthManager();
-        ChargeAttackAndMovement();
-        MeleeAttack();
+        if (!_Imdead)
+        {
+            target = FindObjectOfType<PlayerController>().gameObject.transform;
+            HealthManager();
+            ChargeAttackAndMovement();
+            MeleeAttack();
+        }
+        else
+        {
+            _gameManager._TotalEnemiesDefeated++;
+            _gameManager._roomCleared = true;
+        }
         
     }
 
     private void HealthManager() {
         if (_PlayerHitMe)
         {
-            _McurrHealth =- _Pcontroller._Patkdmg;
+            _McurrHealth = _McurrHealth - _Pcontroller._Patkdmg;
+            Debug.Log(_McurrHealth);
             _PlayerHitMe = false;
         }
         if (_McurrHealth <= 0)
         {
-            Destroy(this);
+            _dedRoar.Play();
+            transform.position = _gameManager._EnemyStandByPos.transform.position;
+            _Imdead = true;
         }
     }
 
@@ -100,6 +113,7 @@ public class MonsterScript : MonoBehaviour
             if (chargeElapsed >= chargeDuration)
             {
                 isCharging = false; // Terminar la embestida después de la duración definida
+                StartCoroutine(ChargeCooldown());
             }
             else
             {
@@ -145,7 +159,23 @@ public class MonsterScript : MonoBehaviour
     }
 
     private void MeleeAttack() {
-        
+        if (_PlayerInMeleeRange)
+        {
+            _Attacking = true;
+            Attack();
+        }
+        else
+        {
+            _Attacking = false;
+        }
+    }
+
+    private IEnumerator Attack() {
+        yield return new WaitForSeconds(2);
+        if (_PlayerInMeleeRange)
+        {
+            _Pcontroller._PCurrHealth = _Pcontroller._PCurrHealth - _MmeleeDmg;
+        }
     }
 
     private IEnumerator ChargeCooldown()
