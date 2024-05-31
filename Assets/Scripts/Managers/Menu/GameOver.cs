@@ -7,6 +7,11 @@ public class GameOver : MonoBehaviour
 {
     public AudioSource _buttonSound;
 
+    private void Start()
+    {
+            Cursor.lockState = CursorLockMode.None;
+    }
+
     public void MainMenu() {
         _buttonSound.Play();
         SceneManager.LoadScene(0);

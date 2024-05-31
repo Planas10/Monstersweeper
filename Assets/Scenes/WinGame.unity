@@ -250,9 +250,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 113104303}
-  - component: {fileID: 113104302}
   - component: {fileID: 113104301}
   - component: {fileID: 113104304}
+  - component: {fileID: 113104305}
   m_Layer: 0
   m_Name: ScriptHolder
   m_TagString: Untagged
@@ -356,19 +356,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &113104302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 113104300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb2c36afb11b974e8913647a860f403, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _buttonSound: {fileID: 113104301}
 --- !u!4 &113104303
 Transform:
   m_ObjectHideFlags: 0
@@ -480,6 +467,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &113104305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113104300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e8d116191e88b74e86c1270e45450b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonSound: {fileID: 113104301}
 --- !u!1 &290474689
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,8 +888,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 113104302}
-        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
+      - m_Target: {fileID: 113104305}
+        m_TargetAssemblyTypeName: WinScript, Assembly-CSharp
         m_MethodName: ExitApp
         m_Mode: 1
         m_Arguments:
@@ -1194,8 +1194,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 113104302}
-        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
+      - m_Target: {fileID: 113104305}
+        m_TargetAssemblyTypeName: WinScript, Assembly-CSharp
         m_MethodName: MainMenu
         m_Mode: 1
         m_Arguments:
